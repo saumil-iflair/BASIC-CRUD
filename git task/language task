@@ -1,0 +1,77 @@
+==============================languagetask laravel=================================
+
+step 1. :- create a middleware
+
+-php artisan make:middleware Localization
+
+step 2. :- middleware folder in change code.
+
+public function handle($request, Closure $next)
+{
+    if(\Session::has('locale'))
+    {
+       \App::setlocale(\Session::get('locale'));
+    }
+    return $next($request);
+}
+
+step 3. :- now kernal file in add class. protectedmiddleware group in web..
+
+\App\Http\Middleware\Localization::class,
+
+step 4. :- create a route for locale.
+
+Route::get('locale/{locale}', function ($locale){
+Session::put('locale', $locale);
+return redirect()->back();
+});
+
+step 5. :- resurce folder in create folder in english(en) and french(fr)
+
+-create a file messege.php in both folder.
+
+step 6. :- then messege.php in returning the passing array..
+
+return [
+    'registrataion'=> 'registrataion',
+    'listing'=>'listing',
+    'action'=>'action',
+];
+
+step 7. :- then passing the key in where to changing the translate language..
+
+-ex:- i want to change in index.php in regetration folder.
+
+step 8. :- then index.php in passing the key.
+
+{{__('messege.registrataion')}}
+
+messege=filename
+registration=key
+
+step 9. :- Adding the drop down language translate
+
+ <span class="form-control col-sm-4">
+
+                    @php
+                    $locale = session()->get('locale');
+                    @endphp
+                    <div class="dropdown">
+                    <a aria-expanded="false" aria-haspopup="true" role="button" data-toggle="dropdown" class="dropdown-toggle" href="#">
+                    @switch($locale)
+                    @case('en')
+                    <span id="selected">English</span>
+                    @break
+                    @default
+                    <span id="selected">French</span>
+                    @endswitch
+                    <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                    <li><a href="{{url('locale/en')}}">English</a></li>
+                    <li><a href="{{url('locale/fr')}}">French</a></li>
+                    </ul>
+                    </div>
+                </span>
+
+
+step 10. :- now you can run the project.
