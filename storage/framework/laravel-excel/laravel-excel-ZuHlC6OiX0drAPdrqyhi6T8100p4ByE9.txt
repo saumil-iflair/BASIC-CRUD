@@ -1,0 +1,2 @@
+"name","email","password"
+"ruchit","ruchit@gmail.com","12345"
